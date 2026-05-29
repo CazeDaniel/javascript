@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Таблица</title>
+</head>
+<body>
+    <h1>Генерация таблицы</h1>
+    <form id="tableForm">
+        <label>
+            Количество строк:
+            <input type="number" name="rows" required min="1">
+        </label>
+        <br><br>
+        <button type="submit">Рисовать</button>
+    </form>
+    <p>чтобы увидеть результат, Откройте консоль браузера (F12),</p>
+
+    <script>
+        'use strict';
+
+        const form = document.getElementById('tableForm');
+
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const rowsCount = parseInt(form.rows.value, 10);
+            const pattern = ['dog', 'dog', 'dog', 'cat', 'cat'];
+            let startPos = 0;
+
+            for (let i = 0; i < rowsCount; i++) {
+                let row = '';
+                for (let j = 0; j < 6; j++) {
+                    const animal = pattern[(startPos + j) % 5];
+                    if (j > 0) row += '\t';
+                    row += animal;
+                }
+                console.log(row);
+                startPos++;
+            }
+        });
+    </script>
+</body>
+</html>

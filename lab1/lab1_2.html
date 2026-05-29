@@ -3,31 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Считать ворон</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        form {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-        }
-    </style>
+    
 </head>
 <body>
 
 <div>
     <h1>Считать ворон</h1>
-
     <form id="crowForm">
-        <label for="numInput">Введите целое число (количество ворон):</label>
-        <input type="number" id="numInput" name="num" step="1" required>
+        <label for="numInput">
+            Количество ворон:
+            <input type="number" id="numInput" name="num" required>
+        </label>
+        <br><br>
         <button type="button" id="countButton">Считать</button>
     </form>
 </div>

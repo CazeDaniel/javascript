@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Простые числа</title>
+</head>
+<body>
+    <h1>Простые числа</h1>
+    <form id="primeForm">
+        <label>
+            Введите N:
+            <input type="number" name="n" required min="2">
+        </label>
+        <br><br>
+        <button type="submit">Найти простые числа</button>
+    </form>
+    <div id="output"></div>
+
+    <script>
+        'use strict';
+
+const form = document.getElementById('primeForm');
+const outputDiv = document.getElementById('output');
+
+// Функция проверки на простоту
+function isPrime(num) {
+    if (num <= 1) return false;
+    for (let i = 2; i <= Math.sqrt(num); i++) {
+        if (num % i === 0) return false;
+    }
+    return true;
+}
+
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const n = parseInt(form.n.value, 10);
+    let primesList = [];
+
+    for (let i = 2; i <= n; i++) {
+        if (isPrime(i)) {
+            primesList.push(i);
+        }
+    }
+
+    outputDiv.textContent = primesList.join(', ');
+});
+    </script>
+</body>
+</html>
