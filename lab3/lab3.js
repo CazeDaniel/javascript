@@ -1,130 +1,113 @@
-'use strict'
+'use strict';
+
+import {
+    fib
+} from './lab2.js';
+
 /**
- * Программа возвращает дробную часть числа
- * @param {number} num 
- * @returns {number} num дробную часть числа
+ * Возвращает дробную часть числа.
+ * @param {number} num - Число.
+ * @returns {number} Дробная часть числа.
  */
 export function getDecimal(num) {
-    if (Math.trunc(num) == num) {
-        return 0;
-    }
-    else if (num < 0) {
-        return num - (-Math.ceil(-num));
-    }
-
-    if (num > 1) {
-        return +(num - Math.trunc(num)).toFixed(10);
-    }
+    const fractional = Math.abs(num % 1);
+    return num >= 0 ? +fractional.toFixed(2) : +(1 - fractional).toFixed(2);
 }
 
 /**
- * Программа возвращает normalizeUrl
- * @param {url} url 
- * @returns {url}
+ * Делит числа с остатком.
+ * @param {number} dividend - Делимое.
+ * @param {number} divisor - Делитель.
+ * @returns {Array<number>} Массив [частное, остаток].
  */
-
-export function normalizeUrl(url) {
-    const normalizeUrl = (url) => {
-        const prefix = 'http://';
-        if (url.startsWith(prefix)) {
-          return 'https://' + url.slice(prefix.length);
-        }
-        return 'https://' + url;
-      };
+export function divmod(dividend, divisor) {
+    // Проверка на деление на ноль
+    if (divisor === 0) {
+        return [NaN, NaN];
     }
+    
+    // Вычисляем частное с округлением вниз (floor) для отрицательных чисел
+    const quotient = Math.floor(dividend / divisor);
+    const remainder = dividend - quotient * divisor;
+    
+    return [quotient, remainder];
+}
 
 /**
- * Функция возвращает true, если строка str содержит 'viagra' или 'XXX', а иначе false
- * @param {string} str 
- * @returns {boolean} возвращает true, если строка str содержит 'viagra' или 'XXX', а иначе false
+ * Нормализует URL, добавляя https://.
+ * @param {string} url - Адрес сайта.
+ * @returns {string} Нормализованный URL.
+ */
+export function normalizeUrl(url) {
+    if (!url.startsWith("http://") && !url.startsWith("https://"))
+        return "https://" + url;
+
+    return url.replace("http://", "https://");
+}
+
+/**
+ * Проверяет наличие спама в строке.
+ * @param {string} str - Входная строка.
+ * @returns {boolean} true, если строка содержит спам, иначе false.
  */
 export function checkSpam(str) {
-    let newstr = str.toLowerCase();
-    return newstr.includes('viagra') || newstr.includes('xxx');
+    const lowerStr = str.toLowerCase();
+    return lowerStr.includes('viagra') || lowerStr.includes('xxx');
 }
 
-
 /**
- * Функция проверяет длину строки str, и если она превосходит maxlength – заменяет конец str на символ многоточие "…"
- * @param {string} str 
- * @param {number} maxlength 
- * @returns {string} отформатированная строка 
+ * Усекает строку до указанной длины и добавляет многоточие, если необходимо.
+ * @param {string} str - Входная строка.
+ * @param {number} maxlength - Максимальная длина строки.
+ * @returns {string} Усеченная строка.
  */
 export function truncate(str, maxlength) {
-    if (str.length < maxlength) {
-        return str;
-    }
-    else {
-        return str.slice(0, maxlength - 1) + '…';
-    }
+    if (str.length > maxlength)
+        return str.slice(0, maxlength - 1) + "…";
+
+    return str;
 }
-/**
- *  Функция преобразует строку вида 'var-test-text' в 'varTestText'
- * @param {string} str 
- * @returns {string}
- */
-export function ucFirst(str) {
-    if (!str) return str;
-    return str[0].toUpperCase() + str.slice(1);
-  }
 
 /**
- *  Функция преобразует строку вида 'var-test-text' в 'varTestText'
- * @param {string} str 
- * @returns {string} строка вида'varTestText'
+ * Преобразует строку вида 'var-test-text' в 'varTestText'.
+ * @param {string} str - Входная строка.
+ * @returns {string} Преобразованная строка.
  */
 export function camelize(str) {
-    let str_copy = str.split("-");
-    let strnew = "";
-    for (let i = 0; i <= str_copy.length - 1; i++) {
-        if (i == 0) strnew = str_copy[0];
-        else strnew += ucFirst(str_copy[i]);
-    }
-    return strnew;
+    return str.split('-').map((word, index) => {
+        if (index === 0)
+            return word;
+
+        return word ? word[0].toUpperCase() + word.slice(1) : '';
+    }).join('');
 }
 
-function fib(n) {
-    let a = BigInt(1);
-    let b = BigInt(1);
-    if (n == BigInt(0)) {
-        return BigInt(0);
-    }
-    else {
-        for (let i = BigInt(3); i <= n; i++) {
-           let c = a + b;
-            a = b;
-            b = c;
-        }
-        return b;
-    }}
 /**
- * Функция  возвращает массив, заполненный числами Фибоначчи до n-го (не включая его)
- * @param {number} n 
- * @returns {array} массив, заполненный числами Фибоначчи до n-го (не включая его)
+ * Возвращает массив чисел Фибоначчи до указанного числа n.
+ * @param {number} n - Количество чисел Фибоначчи.
+ * @returns {Array<BigInt>} Массив чисел Фибоначчи.
  */
 export function fibs(n) {
-    let mas = [];
-    for (let i = 0; i < n; i += 1) {
-        mas.push(fib(i));
-    }
-    return mas;
+    let arr = [];
+    for (let i = 0; i < n; i++) arr.push(fib(i));
+    return arr;
 }
+
 /**
- * Функция возвращает массив из тех же элементов, но отсортированный по убыванию
- * @param {array} arr 
- * @returns {array}  массив из тех же элементов, но отсортированный по убыванию
+ * Возвращает массив, отсортированный по убыванию.
+ * @param {Array<number>} arr - Входной массив.
+ * @returns {Array<number>} Отсортированный массив по убыванию.
  */
 export function arrReverseSorted(arr) {
-    let arr_copy = arr.slice();
-    return arr_copy.sort(function (a, b) {
-        return b - a;
-    })
+    return arr.slice().sort((a, b) => b - a);
 }
+
 /**
- * Функция массив уникальных, не повторяющихся значений массива arr
- * @param {array} arr 
- * @returns {array} массив уникальных, не повторяющихся значений массива arr
+ * Возвращает массив уникальных значений.
+ * @template T
+ * @param {Array<T>} arr - Входной массив.
+ * @returns {Array<T>} Массив уникальных значений.
  */
 export function unique(arr) {
-    return Array.from(new Set(arr));
+    return [...new Set(arr)];
 }
