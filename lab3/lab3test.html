@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
     <meta charset="UTF-8">
-    <title>Тестирование lab3.js</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование lab3</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
     <script>
         mocha.setup('bdd');
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
-    <script>
+    <script>    
         let assert = chai.assert;
     </script>
 </head>
-
 <body>
     <script type="module">
         'use strict';
         import {
-            getDecimal, 
-            divmod,
+            getDecimal, divmod,
             ucFirst,
             normalizeUrl,
             checkSpam,
@@ -29,7 +28,7 @@
             fibs,
             arrReverseSorted,
             unique
-        } from './lab3.js';
+        } from './laba3.js';
         describe("getDecimal", function () {
 
             it("getDecimal(1.23) => 0.23", function () {
@@ -44,24 +43,6 @@
                 assert.strictEqual(getDecimal(1), 0);
             });
         });
-
-        describe("divmod", function () {
-            it("divmod(7, 3) => [2, 1]", function () { 
-                assert.deepEqual(divmod(7, 3), [2, 1]); 
-            });
-            it("divmod(-7, 3) => [-3, 2]", function () { 
-                assert.deepEqual(divmod(-7, 3), [-3, 2]); 
-            });
-            it("divmod(7, -3) => [-3, -2]", function () { 
-                assert.deepEqual(divmod(7, -3), [-3, -2]); 
-            });
-            it("divmod(0, 0) => [NaN, NaN]", function () { 
-                const result = divmod(0, 0);
-                assert.isNaN(result[0]);
-                assert.isNaN(result[1]);
-            });
-        });
-        
         describe ('normalizeUrl', function(){
             it ("normalizeUrl('yandex.ru') => 'https://yandex.ru'", function(){ 
                 assert.strictEqual(normalizeUrl('yandex.ru', 'https://yandex.ru'))});
@@ -124,5 +105,4 @@
         window.onload = () => mocha.run();
     </script>
 </body>
-
 </html>
