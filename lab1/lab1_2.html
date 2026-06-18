@@ -12,51 +12,46 @@
     <form id="crowForm">
         <label for="numInput">
             Количество ворон:
-            <input type="number" id="numInput" name="num" required>
+            <input type="number" id="num" required>
         </label>
         <br><br>
-        <button type="button" id="countButton">Считать</button>
+        <button type="submit">Считать</button>
     </form>
 </div>
 
 <script>
-    function getCrowEnding(num) {
-        let lastDigit = num % 10;
-        let lastTwoDigits = num % 100;
+    'use strict';
 
-        switch (true) {
-            case (lastTwoDigits >= 11 && lastTwoDigits <= 14):
-                return "ворон";
-            default:
-                switch (lastDigit) {
-                    case 1:
-                        return "ворона";
-                    case 2:
-                    case 3:
-                    case 4:
-                        return "вороны";
-                    default:
-                        return "ворон";
-                }
+    document.getElementById('crowForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+
+      const num = parseInt(document.getElementById('num').value, 10);
+      if (isNaN(num) || num < 0) return;
+
+      let ending = '';
+      const lastDigit = num % 10;
+      const lastTwoDigits = num % 100;
+
+      if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+        ending = 'ворон';
+      } else {
+        switch (lastDigit) {
+          case 1:
+            ending = 'ворона';
+            break;
+          case 2:
+          case 3:
+          case 4:
+            ending = 'вороны';
+            break;
+          default:
+            ending = 'ворон';
         }
-    }
+      }
 
-    function showCrowAlert() {
-        let inputElement = document.getElementById("numInput");
-        let num = parseInt(inputElement.value, 10);
-
-        if (isNaN(num)) {
-            alert("Пожалуйста, введите целое число.");
-            return;
-        }
-
-        let ending = getCrowEnding(num);
-        alert("На ветке сидит " + num + " " + ending);
-    }
-
-    let button = document.getElementById("countButton");
-    button.addEventListener("click", showCrowAlert);
-</script>
+      alert(`На ветке сидит ${num} ${ending}`);
+    });
+  </script>
 
 </body>
 </html>

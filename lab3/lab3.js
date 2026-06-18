@@ -1,101 +1,130 @@
-'use strict';
-
-import {
-    fib
-  } from './fun.js';
-
+'use strict'
 /**
- * Возвращает дробную часть числа.
- * @param {number} num - Число.
- * @returns {number} Дробная часть числа.
+ * Программа возвращает дробную часть числа
+ * @param {number} num 
+ * @returns {number} num дробную часть числа
  */
 export function getDecimal(num) {
+    if (Math.trunc(num) == num) {
+        return 0;
+    }
+    else if (num < 0) {
+        return num - (-Math.ceil(-num));
+    }
 
-    return +(num >= 0 ? num % 1 : 1 + (num % 1)).toFixed(2);
+    if (num > 1) {
+        return +(num - Math.trunc(num)).toFixed(10);
+    }
 }
 
-
 /**
- * Нормализует URL, добавляя https://.
- * @param {string} url - Адрес сайта.
- * @returns {string} Нормализованный URL.
+ * Программа возвращает normalizeUrl
+ * @param {url} url 
+ * @returns {url}
  */
+
 export function normalizeUrl(url) {
-    if (!url.startsWith("http://") && !url.startsWith("https://"))
-        return "https://" + url;
-
-    return url.replace("http://", "https://");
-}
-
+    const normalizeUrl = (url) => {
+        const prefix = 'http://';
+        if (url.startsWith(prefix)) {
+          return 'https://' + url.slice(prefix.length);
+        }
+        return 'https://' + url;
+      };
+    }
 
 /**
- * Проверяет наличие спама в строке.
- * @param {string} str - Входная строка.
- * @returns {boolean} true, если строка содержит спам, иначе false.
+ * Функция возвращает true, если строка str содержит 'viagra' или 'XXX', а иначе false
+ * @param {string} str 
+ * @returns {boolean} возвращает true, если строка str содержит 'viagra' или 'XXX', а иначе false
  */
 export function checkSpam(str) {
-    const lowerStr = str.toLowerCase();
-    return lowerStr.includes('viagra') || lowerStr.includes('xxx');
+    let newstr = str.toLowerCase();
+    return newstr.includes('viagra') || newstr.includes('xxx');
 }
 
 
 /**
- * Усекает строку до указанной длины и добавляет многоточие, если необходимо.
- * @param {string} str - Входная строка.
- * @param {number} maxlength - Максимальная длина строки.
- * @returns {string} Усеченная строка.
+ * Функция проверяет длину строки str, и если она превосходит maxlength – заменяет конец str на символ многоточие "…"
+ * @param {string} str 
+ * @param {number} maxlength 
+ * @returns {string} отформатированная строка 
  */
 export function truncate(str, maxlength) {
-    if (str.length > maxlength)
-        return str.slice(0, maxlength - 1) + "…";
-
-    return str;
+    if (str.length < maxlength) {
+        return str;
+    }
+    else {
+        return str.slice(0, maxlength - 1) + '…';
+    }
 }
+/**
+ *  Функция преобразует строку вида 'var-test-text' в 'varTestText'
+ * @param {string} str 
+ * @returns {string}
+ */
+export function ucFirst(str) {
+    if (!str) return str;
+    return str[0].toUpperCase() + str.slice(1);
+  }
 
 /**
- * Преобразует строку вида 'var-test-text' в 'varTestText'.
- * @param {string} str - Входная строка.
- * @returns {string} Преобразованная строка.
+ *  Функция преобразует строку вида 'var-test-text' в 'varTestText'
+ * @param {string} str 
+ * @returns {string} строка вида'varTestText'
  */
 export function camelize(str) {
-    return str.split('-').map((word, index) => {
-        if (index === 0)
-            return word;
-
-        return word ? word[0].toUpperCase() + word.slice(1) : '';
-    }).join('');
+    let str_copy = str.split("-");
+    let strnew = "";
+    for (let i = 0; i <= str_copy.length - 1; i++) {
+        if (i == 0) strnew = str_copy[0];
+        else strnew += ucFirst(str_copy[i]);
+    }
+    return strnew;
 }
 
+function fib(n) {
+    let a = BigInt(1);
+    let b = BigInt(1);
+    if (n == BigInt(0)) {
+        return BigInt(0);
+    }
+    else {
+        for (let i = BigInt(3); i <= n; i++) {
+           let c = a + b;
+            a = b;
+            b = c;
+        }
+        return b;
+    }}
 /**
- * Возвращает массив чисел Фибоначчи до указанного числа n.
- * @param {number} n - Число Фибоначчи.
- * @returns {Array<BigInt>} Массив чисел Фибоначчи.
+ * Функция  возвращает массив, заполненный числами Фибоначчи до n-го (не включая его)
+ * @param {number} n 
+ * @returns {array} массив, заполненный числами Фибоначчи до n-го (не включая его)
  */
 export function fibs(n) {
-    let arr = [];
-    for (let i = 0; i < n; i++) arr.push(fib(i));
-    return arr;
+    let mas = [];
+    for (let i = 0; i < n; i += 1) {
+        mas.push(fib(i));
+    }
+    return mas;
 }
-
-
 /**
- * Возвращает массив, отсортированный по убыванию.
- * @param {Array<number>} arr - Входной массив.
- * @returns {Array<number>} Отсортированный массив по убыванию.
+ * Функция возвращает массив из тех же элементов, но отсортированный по убыванию
+ * @param {array} arr 
+ * @returns {array}  массив из тех же элементов, но отсортированный по убыванию
  */
 export function arrReverseSorted(arr) {
-    return arr.slice().sort((a, b) => b - a);
+    let arr_copy = arr.slice();
+    return arr_copy.sort(function (a, b) {
+        return b - a;
+    })
 }
-
-
 /**
- * Возвращает массив уникальных значений.
- * @template T
- * @param {Array<T>} arr - Входной массив.
- * @returns {Array<T>} Массив уникальных значений.
+ * Функция массив уникальных, не повторяющихся значений массива arr
+ * @param {array} arr 
+ * @returns {array} массив уникальных, не повторяющихся значений массива arr
  */
 export function unique(arr) {
-    return [...new Set(arr)];
+    return Array.from(new Set(arr));
 }
-
-//module.exports = { getDecimal, normalizeUrl, checkSpam, truncate, camelize, fibs, arrReverseSorted, unique };
